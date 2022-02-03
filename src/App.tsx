@@ -1,24 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import './assets/App.css';
+import PersonCard from './components/PersonCard';
+
+interface Person {
+  firstName: string, lastName: string, age: number
+}
+
 
 function App() {
+  
+  const [people, setPeople] = useState<Person[]>([{firstName: "John", lastName: "Doe", age: 30},{firstName: "Matti", lastName: "Meikäläinen", age: 20}])
+  
+  
+
+  const handleSubmit = (event: any) => { 
+    event.preventDefault();
+    console.log(event)
+    // setPeople([...people, { firstName: }] )
+  }
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>People:</h1>
+      <form onSubmit={handleSubmit}>
+        <input type="text" />
+        <input type="submit" />
+      </form>
+
+    {  people.map((person, index) => {
+      return <PersonCard key={index} firstName={person.firstName} lastName={person.lastName} age={person.age} />
+      })}
     </div>
   );
 }
