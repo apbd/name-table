@@ -2,37 +2,48 @@ import React, { useState } from 'react'
 import './assets/App.css'
 import PersonCard from './components/PersonCard'
 import { Formik, Field, Form, FormikHelpers } from 'formik'
-
-interface Person {
-	firstName: string
-	lastName: string
-	age: number
-}
+import IPerson from './interfaces/IPerson'
 
 function App() {
-	const [people, setPeople] = useState<Person[]>([
-		{ firstName: 'John', lastName: 'Doe', age: 30 },
-		{ firstName: 'Matti', lastName: 'Meikäläinen', age: 20 },
-	])
+	// Init state
+	const [peopleList, setPeopleList] = useState<IPerson[]>([])
 
+	// Filter the removed person out of the state
+	const removePerson = (id: string) => {
+		peopleList.filter(person => {
+			return person.id !== id
+		})
+		setPeopleList([
+			...peopleList.filter(person => {
+				return person.id !== id
+			}),
+		])
+	}
+
+	// Copy state and add person to array
+	const addPerson = (values: IPerson): void => {
+		setPeopleList([...peopleList, values])
+	}
 
 	return (
 		<div className='App'>
 			<h1>People:</h1>
+
+			{/* Person creation form */}
 			<Formik
 				initialValues={{
+					id: '_',
 					firstName: '',
 					lastName: '',
 					age: 0,
+					removePerson: removePerson,
 				}}
 				onSubmit={(
-					values: Person,
-					{ setSubmitting }: FormikHelpers<Person>
+					values: IPerson,
+					{ setSubmitting }: FormikHelpers<IPerson>
 				) => {
+					addPerson({ ...values, id: Math.random().toString(16).slice(2) })
 					setTimeout(() => {
-						// console.log(JSON.stringify(values, null, 2))
-		setPeople([...people, values] )
-
 						setSubmitting(false)
 					}, 500)
 				}}
@@ -45,24 +56,22 @@ function App() {
 					<Field id='lastName' name='lastName' placeholder='Doe' />
 
 					<label htmlFor='age'>Age</label>
-					<Field
-						id='age'
-						name='age'
-						placeholder='40'
-						type='number'
-					/>
+					<Field id='age' name='age' placeholder='40' type='number' />
 
 					<button type='submit'>Submit</button>
 				</Form>
 			</Formik>
-
-			{people.map((person, index) => {
+			
+			{/* Make people list */}
+			{peopleList.map((person: IPerson, index: number) => {
 				return (
 					<PersonCard
 						key={index}
+						id={person.id}
 						firstName={person.firstName}
 						lastName={person.lastName}
 						age={person.age}
+						removePerson={removePerson}
 					/>
 				)
 			})}
