@@ -1,6 +1,7 @@
 import React from 'react'
 import { IPerson, IForm } from '../interfaces'
 import { Formik, Field, Form, FormikHelpers } from 'formik'
+import Button from '@mui/material/Button';
 
 const PersonForm: React.FC<IForm> = ({
 	addPerson,
@@ -46,7 +47,7 @@ const PersonForm: React.FC<IForm> = ({
 				<label htmlFor='age'>Age</label>
 				<Field id='age' name='age' placeholder='0' type="number"/>
 
-				<button type='submit'>Submit</button>
+				<Button type='submit'>Submit</Button>
 			</Form>
 		</Formik>
 	)
