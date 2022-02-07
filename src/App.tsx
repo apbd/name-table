@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './assets/App.css'
 import PersonCard from './components/PersonCard'
 import { Formik, Field, Form, FormikHelpers } from 'formik'
-import IPerson from './interfaces/IPerson'
+import { IPerson } from './interfaces/IPerson'
 
 function App() {
 	// Init state
@@ -10,9 +10,6 @@ function App() {
 
 	// Filter the removed person out of the state
 	const removePerson = (id: string) => {
-		peopleList.filter(person => {
-			return person.id !== id
-		})
 		setPeopleList([
 			...peopleList.filter(person => {
 				return person.id !== id
@@ -23,6 +20,23 @@ function App() {
 	// Copy state and add person to array
 	const addPerson = (values: IPerson): void => {
 		setPeopleList([...peopleList, values])
+	}
+
+	// Filter the removed person out of the state and add the edited person in its place
+	const editPerson = (newPerson: IPerson) => {
+		
+		// Get index of person that will be edited
+		const editIndex = peopleList.findIndex(person => {
+				return person.id === newPerson.id
+			})
+		// Copy list
+		const newList = [...peopleList]
+
+		// Replace person with edited person
+		newList[editIndex] = newPerson
+
+		// Update state
+		setPeopleList(newList)
 	}
 
 	return (
@@ -37,6 +51,7 @@ function App() {
 					lastName: '',
 					age: 0,
 					removePerson: removePerson,
+					editPerson: editPerson,
 				}}
 				onSubmit={(
 					values: IPerson,
@@ -61,7 +76,7 @@ function App() {
 					<button type='submit'>Submit</button>
 				</Form>
 			</Formik>
-			
+
 			{/* Make people list */}
 			{peopleList.map((person: IPerson, index: number) => {
 				return (
@@ -72,6 +87,7 @@ function App() {
 						lastName={person.lastName}
 						age={person.age}
 						removePerson={removePerson}
+						editPerson={editPerson}
 					/>
 				)
 			})}
