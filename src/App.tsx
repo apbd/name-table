@@ -40,6 +40,16 @@ function App() {
 		setPeopleList(newList)
 	}
 
+	// Find person
+	const findPerson = (id: string): IPerson => {
+		// Get index of person that will be edited
+		const person = peopleList.find(person => {
+			return person.id === id
+		})
+		return person!
+
+	}
+
 	return (
 		<div className='App'>
 			<h1>Name table</h1>
@@ -48,6 +58,7 @@ function App() {
 				addPerson={addPerson}
 				removePerson={removePerson}
 				editPerson={editPerson}
+				findPerson={findPerson}
 				id=''
 			/>
 			{/* Make people list */}
@@ -59,9 +70,10 @@ function App() {
 						firstName={person.firstName}
 						lastName={person.lastName}
 						age={person.age}
-				addPerson={addPerson}
+						addPerson={addPerson}
 						removePerson={removePerson}
 						editPerson={editPerson}
+						findPerson={findPerson}
 					/>
 				)
 			})}

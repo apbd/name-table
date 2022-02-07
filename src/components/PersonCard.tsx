@@ -10,6 +10,7 @@ const PersonCard: React.FC<IPerson> = ({
 	addPerson,
 	removePerson,
 	editPerson,
+    findPerson
 }) => {
 	const [visible, setVisible] = useState(false)
 
@@ -31,6 +32,7 @@ const PersonCard: React.FC<IPerson> = ({
 					addPerson={addPerson}
 					removePerson={removePerson}
 					editPerson={editPerson}
+                    findPerson={findPerson}
 					id={id}
 				/>
 			)}
