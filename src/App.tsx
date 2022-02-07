@@ -5,6 +5,13 @@ import PersonCard from './components/PersonCard'
 import { IPerson } from './interfaces'
 import PersonForm from './components/PersonForm'
 import { useState } from 'react'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableContainer from '@mui/material/TableContainer'
+import TableHead from '@mui/material/TableHead'
+import Paper from '@mui/material/Paper'
+import TableRow from '@mui/material/TableRow'
+import TableCell from '@mui/material/TableCell'
 
 function App() {
 	// Init state
@@ -47,7 +54,6 @@ function App() {
 			return person.id === id
 		})
 		return person!
-
 	}
 
 	return (
@@ -62,7 +68,7 @@ function App() {
 				id=''
 			/>
 			{/* Make people list */}
-			{peopleList.map((person: IPerson, index: number) => {
+			{/* {peopleList.map((person: IPerson, index: number) => {
 				return (
 					<PersonCard
 						key={index}
@@ -76,7 +82,37 @@ function App() {
 						findPerson={findPerson}
 					/>
 				)
-			})}
+			})} */}
+			<TableContainer component={Paper}>
+				<Table
+					
+					size='medium'
+					aria-label='a dense table'
+				>
+					<TableHead>
+						<TableRow>
+							<TableCell>First Name</TableCell>
+							<TableCell align='left'>Last Name</TableCell>
+							<TableCell align='left'>Age</TableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{peopleList.map((person: IPerson, index: number) => (
+							<PersonCard
+								key={index}
+								id={person.id}
+								firstName={person.firstName}
+								lastName={person.lastName}
+								age={person.age}
+								addPerson={addPerson}
+								removePerson={removePerson}
+								editPerson={editPerson}
+								findPerson={findPerson}
+							/>
+						))}
+					</TableBody>
+				</Table>
+			</TableContainer>
 		</div>
 	)
 }

@@ -1,7 +1,9 @@
 import React from 'react'
 import { IPerson, IForm } from '../interfaces'
-import { Formik, Field, Form, FormikHelpers } from 'formik'
-import Button from '@mui/material/Button';
+import { useFormik, FormikHelpers } from 'formik'
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
+import SaveIcon from '@mui/icons-material/Send'
 
 const PersonForm: React.FC<IForm> = ({
 	addPerson,
@@ -10,7 +12,6 @@ const PersonForm: React.FC<IForm> = ({
 	findPerson,
 	id,
 }) => {
-
 	// Find person if editing person, if no person found, enter empty values
 	const person = findPerson(id) ?? {
 		id: '_',
@@ -22,34 +23,53 @@ const PersonForm: React.FC<IForm> = ({
 		editPerson: editPerson,
 		findPerson: findPerson,
 	}
+
+	const formik = useFormik({
+		initialValues: person,
+		onSubmit: (values: IPerson, { setSubmitting }: FormikHelpers<IPerson>) => {
+			id
+				? editPerson({ ...values, id: id })
+				: addPerson({ ...values, id: Math.random().toString(16).slice(2) })
+			setTimeout(() => {
+				setSubmitting(false)
+			}, 500)
+		},
+	})
 	return (
-		<Formik
-			initialValues={person}
-			onSubmit={(
-				values: IPerson,
-				{ setSubmitting }: FormikHelpers<IPerson>
-			) => {
-				id
-					? editPerson({ ...values, id: id })
-					: addPerson({ ...values, id: Math.random().toString(16).slice(2) })
-				setTimeout(() => {
-					setSubmitting(false)
-				}, 500)
-			}}
-		>
-			<Form>
-				<label htmlFor='firstName'>First Name</label>
-				<Field id='firstName' name='firstName' placeholder='John' />
+		<form onSubmit={formik.handleSubmit}>
+			<TextField
+				label='First Name'
+				value={formik.values.firstName}
+				onChange={formik.handleChange}
+				id='firstName'
+				name='firstName'
+				placeholder='John'
+				variant='outlined'
+			/>
+			<TextField
+				label='Last Name'
+				value={formik.values.lastName}
+				onChange={formik.handleChange}
+				id='lastName'
+				name='lastName'
+				placeholder='Doe'
+				variant='outlined'
+			/>
+			<TextField
+				label='Age'
+				value={formik.values.age}
+				onChange={formik.handleChange}
+				id='age'
+				name='age'
+				placeholder='0'
+				type='number'
+				variant='outlined'
+			/>
 
-				<label htmlFor='lastName'>Last Name</label>
-				<Field id='lastName' name='lastName' placeholder='Doe' />
-
-				<label htmlFor='age'>Age</label>
-				<Field id='age' name='age' placeholder='0' type="number"/>
-
-				<Button type='submit'>Submit</Button>
-			</Form>
-		</Formik>
+			<Button startIcon={<SaveIcon />} color="success" variant='contained' type='submit'>
+				Submit
+			</Button>
+		</form>
 	)
 }
 
