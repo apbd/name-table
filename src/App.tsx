@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
+
 import './assets/App.css'
 import PersonCard from './components/PersonCard'
-import { Formik, Field, Form, FormikHelpers } from 'formik'
-import { IPerson } from './interfaces/IPerson'
+import { IPerson } from './interfaces'
+import CreatePersonForm from './components/CreatePersonForm'
+import { useState } from 'react'
 
 function App() {
 	// Init state
@@ -24,11 +26,10 @@ function App() {
 
 	// Filter the removed person out of the state and add the edited person in its place
 	const editPerson = (newPerson: IPerson) => {
-		
 		// Get index of person that will be edited
 		const editIndex = peopleList.findIndex(person => {
-				return person.id === newPerson.id
-			})
+			return person.id === newPerson.id
+		})
 		// Copy list
 		const newList = [...peopleList]
 
@@ -41,42 +42,13 @@ function App() {
 
 	return (
 		<div className='App'>
-			<h1>People:</h1>
+			<h1>Name table</h1>
 
-			{/* Person creation form */}
-			<Formik
-				initialValues={{
-					id: '_',
-					firstName: '',
-					lastName: '',
-					age: 0,
-					removePerson: removePerson,
-					editPerson: editPerson,
-				}}
-				onSubmit={(
-					values: IPerson,
-					{ setSubmitting }: FormikHelpers<IPerson>
-				) => {
-					addPerson({ ...values, id: Math.random().toString(16).slice(2) })
-					setTimeout(() => {
-						setSubmitting(false)
-					}, 500)
-				}}
-			>
-				<Form>
-					<label htmlFor='firstName'>First Name</label>
-					<Field id='firstName' name='firstName' placeholder='John' />
-
-					<label htmlFor='lastName'>Last Name</label>
-					<Field id='lastName' name='lastName' placeholder='Doe' />
-
-					<label htmlFor='age'>Age</label>
-					<Field id='age' name='age' placeholder='40' type='number' />
-
-					<button type='submit'>Submit</button>
-				</Form>
-			</Formik>
-
+			<CreatePersonForm
+				addPerson={addPerson}
+				removePerson={removePerson}
+				editPerson={editPerson}
+			/>
 			{/* Make people list */}
 			{peopleList.map((person: IPerson, index: number) => {
 				return (
