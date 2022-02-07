@@ -3,7 +3,7 @@ import React from 'react'
 import './assets/App.css'
 import PersonCard from './components/PersonCard'
 import { IPerson } from './interfaces'
-import CreatePersonForm from './components/CreatePersonForm'
+import PersonForm from './components/PersonForm'
 import { useState } from 'react'
 
 function App() {
@@ -44,10 +44,11 @@ function App() {
 		<div className='App'>
 			<h1>Name table</h1>
 
-			<CreatePersonForm
+			<PersonForm
 				addPerson={addPerson}
 				removePerson={removePerson}
 				editPerson={editPerson}
+				id=''
 			/>
 			{/* Make people list */}
 			{peopleList.map((person: IPerson, index: number) => {
@@ -58,6 +59,7 @@ function App() {
 						firstName={person.firstName}
 						lastName={person.lastName}
 						age={person.age}
+				addPerson={addPerson}
 						removePerson={removePerson}
 						editPerson={editPerson}
 					/>

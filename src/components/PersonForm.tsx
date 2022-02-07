@@ -2,10 +2,11 @@ import React from 'react'
 import { IPerson, IForm } from '../interfaces'
 import { Formik, Field, Form, FormikHelpers } from 'formik'
 
-const CreatePersonForm: React.FC<IForm> = ({
+const PersonForm: React.FC<IForm> = ({
 	addPerson,
 	removePerson,
 	editPerson,
+	id
 }) => {
 	return (
 		<Formik
@@ -13,7 +14,8 @@ const CreatePersonForm: React.FC<IForm> = ({
 				id: '_',
 				firstName: '',
 				lastName: '',
-				age: 0,
+				age: '',
+				addPerson: addPerson,
 				removePerson: removePerson,
 				editPerson: editPerson,
 			}}
@@ -21,7 +23,7 @@ const CreatePersonForm: React.FC<IForm> = ({
 				values: IPerson,
 				{ setSubmitting }: FormikHelpers<IPerson>
 			) => {
-				addPerson({ ...values, id: Math.random().toString(16).slice(2) })
+				id ? editPerson({ ...values, id: id }) : addPerson({ ...values, id: Math.random().toString(16).slice(2) })
 				setTimeout(() => {
 					setSubmitting(false)
 				}, 500)
@@ -35,7 +37,7 @@ const CreatePersonForm: React.FC<IForm> = ({
 				<Field id='lastName' name='lastName' placeholder='Doe' />
 
 				<label htmlFor='age'>Age</label>
-				<Field id='age' name='age' placeholder='40' type='number' />
+				<Field id='age' name='age' placeholder='0' />
 
 				<button type='submit'>Submit</button>
 			</Form>
@@ -43,4 +45,4 @@ const CreatePersonForm: React.FC<IForm> = ({
 	)
 }
 
-export default CreatePersonForm
+export default PersonForm

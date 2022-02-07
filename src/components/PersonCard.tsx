@@ -1,37 +1,42 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { IPerson } from '../interfaces'
+import PersonForm from './PersonForm'
 
 const PersonCard: React.FC<IPerson> = ({
-    id,
-    firstName,
-    lastName,
-    age,
-    removePerson,
-    editPerson,
+	id,
+	firstName,
+	lastName,
+	age,
+	addPerson,
+	removePerson,
+	editPerson,
 }) => {
-    return (
-        <div>
-            <h2>
-                {firstName} {lastName}
-            </h2>
-            <p>Age: {age}</p>
-            <button
-                onClick={() =>
-                    editPerson({
-                        id: id,
-                        firstName: 'test',
-                        lastName: 'test',
-                        age: 0,
-                        removePerson,
-                        editPerson,
-                    })
-                }
-            >
-                Edit
-            </button>
-            <button onClick={() => removePerson(id)}>Delete</button>
-        </div>
-    )
+	const [visible, setVisible] = useState(false)
+
+	return (
+		<div>
+			<h2>
+				{firstName} {lastName}
+			</h2>
+			<p>Age: {age}</p>
+			<button
+				onClick={() => {
+					setVisible(!visible)
+				}}
+			>
+				Edit
+			</button>
+			{visible && (
+				<PersonForm
+					addPerson={addPerson}
+					removePerson={removePerson}
+					editPerson={editPerson}
+					id={id}
+				/>
+			)}
+			<button onClick={() => removePerson(id)}>Delete</button>
+		</div>
+	)
 }
 
 export default PersonCard
