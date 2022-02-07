@@ -5,6 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
 import Button from '@mui/material/Button'
+import Grid from '@mui/material/Grid'
 
 const PersonCard: React.FC<IPerson> = ({
 	id,
@@ -27,23 +28,29 @@ const PersonCard: React.FC<IPerson> = ({
 			<TableCell align='left'>{lastName}</TableCell>
 			<TableCell align='left'>{age}</TableCell>
 			<TableCell align='left'>
-				<Button
-					onClick={() => {
-						setVisible(!visible)
-					}}
-					variant='outlined'
-				>
-					Edit
-				</Button>
-				{visible && (
-					<PersonForm
-						addPerson={addPerson}
-						removePerson={removePerson}
-						editPerson={editPerson}
-						findPerson={findPerson}
-						id={id}
-					/>
-				)}
+				<Grid container spacing={2} alignItems="center"  justifyContent="center">
+					<Grid item>
+						<Button color={visible ? 'error' : "primary" }
+							onClick={() => {
+								setVisible(!visible)
+							}}
+							variant='outlined'
+						>
+							{ visible ? "Close" : "Edit"}
+						</Button>
+					</Grid>
+					<Grid item>
+						{visible && (
+							<PersonForm
+								addPerson={addPerson}
+								removePerson={removePerson}
+								editPerson={editPerson}
+								findPerson={findPerson}
+								id={id}
+							/>
+						)}
+					</Grid>
+				</Grid>
 			</TableCell>
 			<TableCell align='left'>
 				<Button

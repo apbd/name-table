@@ -67,28 +67,12 @@ function App() {
 				findPerson={findPerson}
 				id=''
 			/>
+			<br />
+			<hr />
+
 			{/* Make people list */}
-			{/* {peopleList.map((person: IPerson, index: number) => {
-				return (
-					<PersonCard
-						key={index}
-						id={person.id}
-						firstName={person.firstName}
-						lastName={person.lastName}
-						age={person.age}
-						addPerson={addPerson}
-						removePerson={removePerson}
-						editPerson={editPerson}
-						findPerson={findPerson}
-					/>
-				)
-			})} */}
 			<TableContainer component={Paper}>
-				<Table
-					
-					size='medium'
-					aria-label='a dense table'
-				>
+				<Table size='medium' aria-label='a dense table'>
 					<TableHead>
 						<TableRow>
 							<TableCell>First Name</TableCell>
