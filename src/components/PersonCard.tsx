@@ -22,14 +22,14 @@ const PersonCard: React.FC<IPerson> = ({
 	return (
 		<TableRow
 			key={id}
-			sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+			sx={{ '&:last-child td, &:last-child th': { border: 0 }, }}
 		>
 			<TableCell>{firstName}</TableCell>
 			<TableCell align='left'>{lastName}</TableCell>
 			<TableCell align='left'>{age}</TableCell>
 			<TableCell align='left'>
-				<Grid container spacing={2} alignItems="center"  justifyContent="center">
-					<Grid item>
+				<Grid container spacing={2} alignItems="center">
+					<Grid item> 
 						<Button color={visible ? 'error' : "primary" }
 							onClick={() => {
 								setVisible(!visible)

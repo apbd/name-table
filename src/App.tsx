@@ -78,6 +78,8 @@ function App() {
 							<TableCell>First Name</TableCell>
 							<TableCell align='left'>Last Name</TableCell>
 							<TableCell align='left'>Age</TableCell>
+							<TableCell align='left'>Edit</TableCell>
+							<TableCell align='left'>Delete</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
