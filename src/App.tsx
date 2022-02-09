@@ -1,10 +1,9 @@
-import React from 'react'
-
+import customSort from './utils'
 import './assets/App.css'
 import PersonCard from './components/PersonCard'
 import { IPerson } from './interfaces'
 import PersonForm from './components/PersonForm'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableContainer from '@mui/material/TableContainer'
@@ -12,6 +11,7 @@ import TableHead from '@mui/material/TableHead'
 import Paper from '@mui/material/Paper'
 import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
+import TableSortLabel from '@mui/material/TableSortLabel'
 
 function App() {
 	// Init state
@@ -53,7 +53,14 @@ function App() {
 		const person = peopleList.find(person => {
 			return person.id === id
 		})
+		// Fix this
 		return person!
+	}
+
+	// Sort peopleList on click
+	const sort = (sortQuery: string) => {
+		const sorted = peopleList.sort(customSort(sortQuery))
+		setPeopleList([...sorted])
 	}
 
 	return (
@@ -69,15 +76,50 @@ function App() {
 			/>
 			<br />
 			<hr />
-
 			{/* Make people list */}
 			<TableContainer component={Paper}>
 				<Table size='medium' aria-label='a dense table'>
 					<TableHead>
 						<TableRow>
-							<TableCell>First Name</TableCell>
-							<TableCell align='left'>Last Name</TableCell>
-							<TableCell align='left'>Age</TableCell>
+							<TableCell>
+								<TableSortLabel
+									active
+									direction={'asc'}
+									onClick={() => sort('firstName')}
+								/>
+								<TableSortLabel
+									active
+									direction={'desc'}
+									onClick={() => sort('-firstName')}
+								/>
+								First Name
+							</TableCell>
+							<TableCell align='left'>
+								<TableSortLabel
+									active
+									direction={'asc'}
+									onClick={() => sort('lastName')}
+								/>
+								<TableSortLabel
+									active
+									direction={'desc'}
+									onClick={() => sort('-lastName')}
+								/>
+								Last Name
+							</TableCell>
+							<TableCell align='left'>
+								<TableSortLabel
+									active
+									direction={'asc'}
+									onClick={() => sort('age')}
+								/>
+								<TableSortLabel
+									active
+									direction={'desc'}
+									onClick={() => sort('-age')}
+								/>
+								Age
+							</TableCell>
 							<TableCell align='left'>Edit</TableCell>
 							<TableCell align='left'>Delete</TableCell>
 						</TableRow>
